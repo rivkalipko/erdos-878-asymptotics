@@ -1,0 +1,17 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": ["Erdos878.erdos_878.parts.v"],
+  "definition_names": [
+    "Erdos878.f",
+    "Erdos878.H",
+    "Erdos878.residue",
+    "Erdos878.weight",
+    "Erdos878.primeCutoff",
+    "Erdos878.primeBases",
+    "Erdos878.harmonicAnswer",
+    "Erdos878.erdos_878.parts.v.answer"
+  ],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

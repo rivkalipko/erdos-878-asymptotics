@@ -1,0 +1,70 @@
+version: "v0.4"
+project:
+  name: An asymptotic equivalent for the harmonic sum in Erdős Problem 878(v)
+  description: >-
+    Let f(n) be the sum over prime divisors p of n of the greatest power of p
+    at most n. The weighted sum of f(n)/n over 1 ≤ n < x is asymptotic to an
+    explicit sum over primes p ≤ (log x)^2. Each prime contributes a term
+    depending on the remainder of log x modulo log p. The proof combines a
+    finite harmonic-sum estimate with a uniform short-interval prime bound.
+  authors: [Rivka Lipkovitz]
+  responsible_maintainers: [Rivka Lipkovitz]
+  license: Apache-2.0
+classification:
+  arxiv: [math.NT]
+  msc2020: ["11N37", "11N35"]
+sources:
+  - title: Derivation of the truncated prime sum for Erdős Problem 878(v)
+    type: original-proof
+    relationship: other
+    note: The formula and argument were developed in a private AI-assisted session led by the submitter. Priority relative to unpublished work is unknown.
+  - title: On two unconventional number theoretic functions and on some related problems
+    authors: [Paul Erdős]
+    type: article
+    location: https://www.erdosproblems.com/878
+    relationship: background
+  - title: Erdős Problem 878
+    type: website
+    location: https://www.erdosproblems.com/878
+    contributors:
+      - name: Thomas F. Bloom
+        role: editor
+    relationship: background
+related_formalizations:
+  - id: https://github.com/google-deepmind/formal-conjectures/blob/main/FormalConjectures/ErdosProblems/878.lean
+    relationship: builds-on
+    note: Uses the same definitions of f and H and supplies part (v)'s answer.
+  - id: https://github.com/AlexKontorovich/PrimeNumberTheoremAnd/blob/2c476fa6441c607096d93c8fc7ac0a227a655dae/PrimeNumberTheoremAnd/BrunTitchmarsh.lean
+    relationship: builds-on
+    note: Provides the Selberg sieve estimate for short intervals and a prime-power counting bound.
+status:
+  scope: Part (v), for natural-number endpoints x tending to infinity as in Formal Conjectures.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+automation:
+  methods:
+    - method: agent
+      models: [GPT-6 family]
+      framework: OpenAI Codex
+      tool_setup: A coordinating Codex agent and parallel Codex agents developed the proof and debugged it against Lean and Mathlib.
+      cost:
+        spend_usd: not tracked
+        hardware: Local Apple Silicon machine, with API inference.
+  spend_usd: not tracked
+  notes: Rivka Lipkovitz selected the target, directed the AI-assisted investigation, requested the formal proof, and is responsible for the submission. Codex developed the mathematical argument and wrote and checked the Lean proofs.
+fidelity:
+  divergences: The endpoint domain is the natural numbers, matching the existing Formal Conjectures statement. There are no extra hypotheses.
+review:
+  status: Locally kernel-checked
+  reviewers: []
+  notes: The Lean build checks the proof and its axiom dependencies. Independent human mathematical review is not claimed.
+alignment:
+  namespace: Erdos878
+  statements:
+    - source: Erdős Problem 878(v)
+      lean: Erdos878.erdos_878.parts.v
+      module: Solution
+      status: proved
+      note: The explicit answer sums the logarithmic residue weights over primes up to the square of the logarithm.
+acknowledgements: Mathlib contributors, the Formal Conjectures authors, Arend Mellendijk and the PrimeNumberTheoremAnd contributors, and OpenAI Codex.

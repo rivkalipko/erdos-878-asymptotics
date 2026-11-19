@@ -1,0 +1,71 @@
+/-
+Copyright 2026 The Formal Conjectures Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-/
+module
+
+public import Mathlib.Analysis.Asymptotics.AsymptoticEquivalent
+public import Mathlib.Analysis.SpecialFunctions.Log.Basic
+public import Mathlib.Data.Nat.Log
+public import Mathlib.Data.Nat.PrimeFin
+
+/-!
+# Erdős Problem 878, part (v)
+
+The definitions of `f` and `H` are taken from the Apache-2.0-licensed
+Formal Conjectures statement `FormalConjectures/ErdosProblems/878.lean`.
+-/
+
+@[expose] public section
+
+namespace Erdos878
+
+/-- Sum of the largest powers at most `n` of prime divisors of `n`. -/
+noncomputable def f (n : ℕ) : ℕ :=
+  ∑ p ∈ n.primeFactors, p ^ Nat.log p n
+
+/-- The sum of `f n / n` over positive integers `n < x`. -/
+noncomputable def H (x : ℕ) : ℝ :=
+  ∑ n ∈ Finset.Ico 1 x, (f n : ℝ) / n
+
+/-- The remainder of `log x` in the logarithmic scale of base `p`. -/
+noncomputable def residue (x p : ℕ) : ℝ :=
+  Real.log x - (Nat.log p x : ℝ) * Real.log p
+
+/-- The weight of one prime in the main term divided by `x`. -/
+noncomputable def weight (x p : ℕ) : ℝ :=
+  Real.exp (-residue x p) / p * (residue x p + Real.log p / ((p : ℝ) - 1))
+
+/-- The largest allowed prime is at most the square of the natural logarithm. -/
+noncomputable def primeCutoff (x : ℕ) : ℕ :=
+  ⌊(Real.log (x : ℝ)) ^ 2⌋₊
+
+/-- The primes at most `x`. -/
+def primeBases (x : ℕ) : Finset ℕ :=
+  (Finset.range (x + 1)).filter Nat.Prime
+
+/-- The explicit leading term proposed for part (v). -/
+noncomputable def harmonicAnswer (x : ℕ) : ℝ :=
+  (x : ℝ) * ∑ p ∈ primeBases (primeCutoff x), weight x p
+
+open Filter Asymptotics
+
+/-- The leading term in the asymptotic for the weighted sum from part (v). -/
+noncomputable def erdos_878.parts.v.answer : ℕ → ℝ := harmonicAnswer
+
+/-- The weighted sum is asymptotic to the explicit truncated prime sum. -/
+theorem erdos_878.parts.v : H ~[atTop] erdos_878.parts.v.answer := by
+  sorry
+
+end Erdos878
